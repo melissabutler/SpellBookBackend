@@ -1,0 +1,57 @@
+DROP DATABASE IF EXISTS spellBook;
+CREATE DATABASE spellBook;
+
+\c spellBook
+
+DROP TABLE IF EXISTS userCharacters;
+DROP TABLE IF EXISTS spellLists;
+
+DROP TABLE IF EXISTS characters;
+
+DROP TABLE IF EXISTS spell_cards;
+
+DROP TABLE IF EXISTS users;
+
+CREATE TABLE users (
+    username VARCHAR(25) PRIMARY KEY,
+    password TEXT NOT NULL,
+    email TEXT NOT NULL
+        CHECK (position('@' IN email) > 1),
+    is_admin BOOLEAN NOT NULL DEFAULT FALSE
+);
+
+CREATE TABLE spell_cards (
+    idx TEXT PRIMARY KEY,
+    name TEXT NOT NULL,
+    description TEXT NOT NULL,
+    level INTEGER NOT NULL,
+    range text,
+    damage INTEGER,
+    area_of_effect TEXT,
+    school TEXT,
+    classes TEXT
+);
+
+CREATE TABLE characters (
+    id SERIAL PRIMARY KEY,
+    char_name TEXT NOT NULL,
+    char_class TEXT NOT NULL,
+    lvl INTEGER NOT NULL
+);
+
+CREATE TABLE userCharacters (
+    char_id INTEGER 
+        REFERENCES characters ON DELETE CASCADE,
+    username VARCHAR(25)
+        REFERENCES users ON DELETE CASCADE,
+        PRIMARY KEY (char_id, username)
+);
+
+CREATE TABLE spellLists (
+    id INTEGER 
+        REFERENCES characters ON DELETE CASCADE,
+    spell_idx TEXT
+        REFERENCES spell_cards ON DELETE CASCADE
+)
+
+
