@@ -104,6 +104,10 @@ static async createCharacter({ username, char_name, char_class, lvl }) {
 
 /**  */
 
+/** Delete character */
+
+/** Unassign spell */
+
 static async assignSpells(char_id, spell_idx){
     const charResult = await db.query( 
         `SELECT id 

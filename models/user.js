@@ -47,7 +47,7 @@ static async authenticate(username, password) {
  * 
  * Throws BadRequestError for duplicates
  */
-static async register({ username, password, email }) {
+static async register({ username, password, email, isAdmin }) {
     const duplicateCheck = await db.query(
         `SELECT username
         FROM users
@@ -66,9 +66,9 @@ static async register({ username, password, email }) {
         password,
         email,
         is_admin)
-        VALUES ($1, $2, $3)
+        VALUES ($1, $2, $3, $4)
         RETURNING username, email, is_admin AS "isAdmin"`,
-        [ username, hashedPassword, email]
+        [ username, hashedPassword, email, isAdmin]
     );
 
     const user = result.rows[0]
@@ -86,6 +86,7 @@ static async findAll() {
     const result = await db.query(
         `SELECT username,
                 email,
+                password,
                 is_admin AS "isAdmin"
         FROM users
         ORDER BY username`,
@@ -140,7 +141,8 @@ static async update(username, data) {
         data, 
         {
             password: "password",
-            email: "email"
+            email: "email",
+            isAdmin: "is_admin"
         });
         const usernameVarIdx = "$" + (values.length + 1)
 
@@ -149,7 +151,7 @@ static async update(username, data) {
                             WHERE username = ${usernameVarIdx}
                             RETURNING username, 
                                         email`;
-        const result = await db.query(querySql, [...values, username]);
+        const result = await db.query(querySQL, [...values, username]);
         const user = result.rows[0];
 
         if(!user) throw new NotFoundError(`No user: ${username}`);

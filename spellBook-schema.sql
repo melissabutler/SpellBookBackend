@@ -1,17 +1,3 @@
-DROP DATABASE IF EXISTS spellBook;
-CREATE DATABASE spellBook;
-
-\c spellBook
-
-DROP TABLE IF EXISTS userCharacters;
-DROP TABLE IF EXISTS spellLists;
-
-DROP TABLE IF EXISTS characters;
-
-DROP TABLE IF EXISTS spell_cards;
-
-DROP TABLE IF EXISTS users;
-
 CREATE TABLE users (
     username VARCHAR(25) PRIMARY KEY,
     password TEXT NOT NULL,
@@ -53,5 +39,4 @@ CREATE TABLE spellLists (
     spell_idx TEXT
         REFERENCES spell_cards ON DELETE CASCADE
 );
-
 

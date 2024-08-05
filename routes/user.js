@@ -2,8 +2,16 @@
 
 const express = require("express");
 
+const jsonschema = require("jsonschema");
+
+const userRegisterSchema = require("../schemas/userRegister.json")
+const userUpdateSchema = require("../schemas/userUpdate.json")
+
+
 const { BadRequestError } = require("../expressError")
 const User = require('../models/user');
+const { createToken } = require("../helpers/tokens");
+const { ensureAdmin, ensureCorrectUserOrAdmin } = require("../middleware/auth")
 
 const router = express.Router();
 
@@ -17,11 +25,21 @@ const router = express.Router();
  * 
  * 
 */
-// router.post('/', async function(req, res, next) {
-//     try {
-//         const
-//     }
-// })
+router.post('/', async function(req, res, next) {
+    console.log(req.body)
+    const validator = jsonschema.validate(req.body, userRegisterSchema);
+    if(!validator.valid) {
+        const errs = validator.errors.map(e => e.stack);
+        throw new BadRequestError(errs);
+    }
+    try {
+        const user = await User.register(req.body);
+        const token = createToken(user);
+        return res.status(201).json({ user, token });
+    } catch(err) {
+        return next(err);
+    }
+});
 
 /** GET / => { users: [ { username, email }, ... ] }
  * returns a list of all users
@@ -63,17 +81,33 @@ router.get('/:username', async function (req, res, next) {
  * Authorization required: Admin or same-user-as-:username
  */
 
+router.patch("/:username", async function (req, res, next) {
+    const validator = jsonschema.validate(req.body, userUpdateSchema);
+    if(!validator.valid) {
+        const errs = validator.errors.map(e => e.stack);
+        throw new BadRequestError(errs);
+    }
+    try {
+        const user = await User.update(req.params.username, req.body);
+        return res.json({ user })
+    } catch(err) {
+        return next(err);
+    }
+})
 /** DELETE /[username] => { deleted: username }
  * 
  * Authorization required: admin or same-user-as-:username
  * 
  */
 
-/** POST /[username]/characters 
- * 
- * Retursn { "created": char_id }
- * 
- * Authorization required: admin or same-user-as-:username
- */
+router.delete('/:username', async function (req, res, next) {
+    try {
+        await User.delete(req.params.username);
+        return res.json({ deleted: req.params.username});
+    } catch(err) {
+        return next(err);
+    }
+})
+
 
 module.exports = router;

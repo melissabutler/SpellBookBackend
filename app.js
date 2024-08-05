@@ -13,6 +13,7 @@ const spellRoutes = require('./routes/spells')
 const spellCardRoutes = require('./routes/spellCards')
 const userRoutes = require('./routes/user')
 const characterRoutes = require('./routes/character')
+const authRoutes = require("./routes/auth")
 
 const app = express();
 
@@ -24,6 +25,7 @@ app.use("/spells", spellRoutes);
 app.use("/users", userRoutes)
 app.use("/characters", characterRoutes)
 app.use('/spell_cards', spellCardRoutes)
+app.use('/auth', authRoutes)
 
 /** Handle 404 errors -- matches everything */ 
 app.use(function (req, res, next) {
