@@ -1,6 +1,7 @@
 "use strict";
 
 const db = require('../db');
+const { sqlForPartialUpdate } = require("../helpers/sql")
 const {
     NotFoundError,
     BadRequestError,
@@ -19,7 +20,7 @@ class Character {
                     char_name,
                     username
             FROM characters
-            JOIN userCharacters ON characters.id = userCharacters.char_id
+            JOIN user_characters ON characters.id = user_characters.char_id
             ORDER BY id`
         );
 
@@ -46,7 +47,7 @@ class Character {
 
         const spellListRes = await db.query(
             ` SELECT s.name FROM spell_cards s
-                JOIN spellLists ON s.idx = spellLists.spell_idx`
+                JOIN spell_lists ON s.idx = spell_lists.spell_idx`
         );
 
         character.spells = spellListRes.rows.map(a => a.name);
@@ -84,7 +85,7 @@ static async createCharacter({ username, char_name, char_class, lvl }) {
     let character = result.rows[0];
 
     const connect = await db.query(
-        `INSERT INTO userCharacters ( char_id,
+        `INSERT INTO user_characters ( char_id,
                                         username)
         VALUES ($1, $2)`, 
         [character.id, username]
@@ -101,34 +102,68 @@ static async createCharacter({ username, char_name, char_class, lvl }) {
  * returns { charName, class }
  * 
  */
+static async update(char_id, data) {
+    const { setCols, values } = sqlForPartialUpdate(
+        data,
+        {
+            char_name: "char_name",
+            char_class: "char_class",
+            lvl: "lvl"
+        }
+    );
+
+    const char_idVarIdx = "$" + (values.length + 1)
+
+    const querySQL = ` UPDATE characters
+                        SET ${setCols}
+                        WHERE id = ${char_idVarIdx}
+                        RETURNING id,
+                                char_name,
+                                char_class,
+                                lvl`;
+    const result = await db.query(querySQL, [...values, char_id]);
+    const character = result.rows[0];
+
+    if(!character) throw new NotFoundError(`Character not found.`);
+    return character;
+}
 
 /**  */
 
 /** Delete character */
 
-/** Unassign spell */
+static async delete(char_id) {
+    const result = await db.query(
+    `DELETE FROM characters
+    WHERE id = $1
+    RETURNING char_name`,
+    [char_id]);
 
+    const character = result.rows[0]
+
+    if(!character) throw new NotFoundError(`Character not found.`)
+}
+
+/** Assign a spell to a character's spell list
+ * 
+ * { char_id, spell_idx }
+ */
 static async assignSpells(char_id, spell_idx){
-    const charResult = await db.query( 
-        `SELECT id 
-                FROM characters
-                WHERE id = $1`,
-                [char_id],
+
+    const spellListResult = await db.query( 
+        `SELECT char_id, spell_idx 
+                FROM spell_lists
+                WHERE char_id = $1 AND spell_idx = $2`, [char_id, spell_idx]
     );
 
-    let character = charResult.rows[0];
+    if(spellListResult) throw new BadRequestError(`Spell ${spell_idx} already on character's list.`)
 
-    const spellResult = await db.query( 
-        `SELECT idx 
-                FROM spell_cards
-                WHERE idx = $1`, [spell_idx]
-    )
 
     const result = await db.query(
-        `INSERT INTO spellLists (id,
+        `INSERT INTO spell_lists (char_id,
                                     spell_idx)
         VALUES ($1, $2)
-        RETURNING id, spell_idx`,
+        RETURNING char_id, spell_idx`,
         [char_id, spell_idx]
     );
 
@@ -137,6 +172,20 @@ static async assignSpells(char_id, spell_idx){
     return spell;
 }
 
+
+/** Unassign spell, returns undefined.  */
+static async unassignSpells(char_id, spell_idx){
+    const result = await db.query(
+        `DELETE FROM spell_lists
+        WHERE char_id = $1 AND spell_idx = $2
+        RETURNING spell_idx`,
+        [char_id, spell_idx]
+    );
+
+    const spell = result.rows[0];
+
+    if(!spell) throw new NotFoundError(`Spell not found.`)
+}
     
 }
 

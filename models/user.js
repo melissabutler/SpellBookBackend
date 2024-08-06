@@ -118,7 +118,7 @@ static async get(username) {
 
     const userCharactersRes = await db.query(
         `SELECT c.char_name FROM characters c
-        JOIN userCharacters ON c.id = userCharacters.char_id`);
+        JOIN user_characters ON c.id = user_characters.char_id`);
     
     user.characters = userCharactersRes.rows.map(a => a.char_name);
     return user;
@@ -172,7 +172,7 @@ static async delete(username) {
         [username]
     );
 
-    const user = result.rows[0]
+    const user = result.rows[0];
     
     if(!user) throw new NotFoundError(`No user: ${username}`)
 }

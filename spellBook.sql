@@ -3,12 +3,13 @@ CREATE DATABASE spellBook;
 
 \c spellBook
 
-DROP TABLE IF EXISTS userCharacters;
-DROP TABLE IF EXISTS spellLists;
+DROP TABLE IF EXISTS spell_lists;
+DROP TABLE IF EXISTS user_characters;
 
 DROP TABLE IF EXISTS characters;
-
 DROP TABLE IF EXISTS spell_cards;
+
+
 
 DROP TABLE IF EXISTS users;
 
@@ -39,7 +40,7 @@ CREATE TABLE characters (
     lvl INTEGER NOT NULL
 );
 
-CREATE TABLE userCharacters (
+CREATE TABLE user_characters (
     char_id INTEGER 
         REFERENCES characters ON DELETE CASCADE,
     username VARCHAR(25)
@@ -47,8 +48,8 @@ CREATE TABLE userCharacters (
         PRIMARY KEY (char_id, username)
 );
 
-CREATE TABLE spellLists (
-    id INTEGER 
+CREATE TABLE spell_lists (
+    char_id INTEGER 
         REFERENCES characters ON DELETE CASCADE,
     spell_idx TEXT
         REFERENCES spell_cards ON DELETE CASCADE

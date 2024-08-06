@@ -1,0 +1,53 @@
+{
+    "$schema": "https://json-schema.org/draft/2019-09/schema",
+    "$id": "http://example.com/example.json",
+    "type": "object",
+    "default": {},
+    "title": "Root Schema",
+    "required": [
+        "id",
+        "char_name",
+        "char_class",
+        "lvl"
+    ],
+    "properties": {
+        "id": {
+            "type": "integer",
+            "default": 0,
+            "title": "The id Schema",
+            "examples": [
+                1
+            ]
+        },
+        "char_name": {
+            "type": "string",
+            "default": "",
+            "title": "The char_name Schema",
+            "examples": [
+                "characterName"
+            ]
+        },
+        "char_class": {
+            "type": "string",
+            "default": "",
+            "title": "The char_class Schema",
+            "examples": [
+                "characterClass"
+            ]
+        },
+        "lvl": {
+            "type": "integer",
+            "default": 0,
+            "title": "The lvl Schema",
+            "examples": [
+                1
+            ]
+        }
+    },
+    "examples": [{
+        "id": 1,
+        "char_name": "characterName",
+        "char_class": "characterClass",
+        "lvl": 1
+    }]
+}

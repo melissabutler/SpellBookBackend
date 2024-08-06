@@ -8,7 +8,7 @@ const router = express.Router();
 const { createToken } = require("../helpers/tokens");
 
 const userAuthSchema = require("../schemas/userAuth.json");
-const userRegisterSchema = require('../schema/userRegister.json');
+const userRegisterSchema = require('../schemas/userRegister.json');
 
 const { BadRequestError } = require("../expressError")
 
