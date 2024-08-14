@@ -7,8 +7,7 @@
     "required": [
         "username",
         "password",
-        "email",
-        "isAdmin"
+        "email"
     ],
     "properties": {
         "username": {
@@ -40,7 +39,6 @@
     "examples": [{
         "username": "username",
         "password": "password",
-        "email": "email@email.com",
-        "isAdmin": true
+        "email": "email@email.com"
     }]
 }

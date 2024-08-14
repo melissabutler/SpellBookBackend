@@ -21,7 +21,8 @@ class User {
 static async authenticate(username, password) {
     const result = await db.query(
         `SELECT username,
-                email
+                email,
+                password,
                 is_admin AS "isAdmin"
         FROM users 
         WHERE username = $1`,
@@ -29,8 +30,7 @@ static async authenticate(username, password) {
     );
 
     const user = result.rows[0];
-    // if correct, return user
-    if(user) {
+    if (user) {
         //compare hashed password to new hash from password
         const isValid = await bcrypt.compare(password, user.password);
         if(isValid === true){
@@ -54,6 +54,7 @@ static async register({ username, password, email, isAdmin }) {
         WHERE username = $1`,
         [username],
     );
+    
     if(duplicateCheck.rows[0]) {
         throw new BadRequestError(`Username ${username} is already in use.`)
     }
@@ -83,7 +84,7 @@ static async register({ username, password, email, isAdmin }) {
  */
 
 static async findAll() {
-    const result = await db.query(
+    const result = await db.query(n
         `SELECT username,
                 email,
                 password,
@@ -117,10 +118,14 @@ static async get(username) {
     if (!user) throw new NotFoundError(`No user: ${username}`);
 
     const userCharactersRes = await db.query(
-        `SELECT c.char_name FROM characters c
-        JOIN user_characters ON c.id = user_characters.char_id`);
+        `SELECT id,
+                char_name,
+                char_class,
+                lvl
+        FROM characters 
+        WHERE username = $1`, [username]);
     
-    user.characters = userCharactersRes.rows.map(a => a.char_name);
+    user.characters = userCharactersRes.rows;
     return user;
 }
 

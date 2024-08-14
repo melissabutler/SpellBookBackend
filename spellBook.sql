@@ -34,10 +34,18 @@ CREATE TABLE spell_cards (
 );
 
 CREATE TABLE characters (
+    username VARCHAR(25) NOT NULL,
     id SERIAL PRIMARY KEY,
     char_name TEXT NOT NULL,
     char_class TEXT NOT NULL,
-    lvl INTEGER NOT NULL
+    lvl INTEGER NOT NULL,
+    strength INTEGER CHECK (strength >= 0 AND strength <= 20),
+    dexterity INTEGER CHECK (dexterity >= 0 AND  dexterity <= 20),
+    constitution INTEGER CHECK ( constitution >= 0 AND constitution <= 20),
+    intelligence INTEGER CHECK (intelligence >= 0 AND intelligence <= 20),
+    wisdom INTEGER CHECK (wisdom >= 0 AND wisdom <= 20),
+    charisma INTEGER CHECK (charisma >= 0 AND charisma <= 20)
+    
 );
 
 CREATE TABLE user_characters (

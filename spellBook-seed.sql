@@ -14,15 +14,16 @@ INSERT INTO spell_cards (idx, name, description, range, level)
 VALUES ('acid-arrow', 'Acid Arrow', 'An acid arrow', '90 feet', 2),
         ('acid-spray', 'Acid Spray', 'a spary of acid', '30 ft cone', 3);
 
-INSERT INTO characters (char_name, char_class, lvl)
+INSERT INTO characters (char_name, char_class, lvl, username, strength)
 VALUES ('char1', 
         'cleric', 
-        1),
-        ('char2', 'sorceror', 3);
+        1, 
+        'testuser', 20),
+        ('char2', 'sorceror', 3, 'testuser', 19);
 
-INSERT INTO user_characters (char_id, username)
-VALUES ('1', 'testuser'),
-        ('2', 'testuser');
+-- INSERT INTO user_characters (char_id, username)
+-- VALUES ('1', 'testuser'),
+--         ('2', 'testuser');
 
 INSERT INTO spell_lists (char_id, spell_idx) 
 VALUES (1, 'acid-arrow'),
