@@ -54,6 +54,7 @@ router.post('/', async function (req, res, next) {
 router.get("/:char_id", async function(req, res, next) {
     try {
         const character = await Character.get(req.params.char_id);
+        console.log(character)
         return res.json({ character })
 
     } catch(err) {

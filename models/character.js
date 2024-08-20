@@ -53,10 +53,12 @@ class Character {
         if(!character) throw new NotFoundError(`No character found.`)
 
         const spellListRes = await db.query(
-            ` SELECT s.spell_idx FROM spell_lists s
-                JOIN characters ON s.char_id = characters.id`
+            ` SELECT s.spell_idx, s.char_id FROM spell_lists s
+                JOIN characters ON s.char_id = characters.id
+                WHERE characters.id = $1`, [char_id]
         );
         character.spells = spellListRes.rows.map(a => a.spell_idx);
+        console.log(character)
         return character;
 
 
