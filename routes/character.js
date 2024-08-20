@@ -54,7 +54,7 @@ router.post('/', async function (req, res, next) {
 router.get("/:char_id", async function(req, res, next) {
     try {
         const character = await Character.get(req.params.char_id);
-        return res.json({character})
+        return res.json({ character })
 
     } catch(err) {
         return next(err);
@@ -106,6 +106,7 @@ router.delete("/:char_id", async function(req, res, next) {
 router.post('/:char_id/spell_cards/:idx', async function(req, res, next){
     try {
         const spellIdx = req.params.idx;
+        console.log(req.params)
         await Character.assignSpells(req.params.char_id, req.params.idx);
         return res.json({ assigned: spellIdx })
     } catch(err) {

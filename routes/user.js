@@ -25,8 +25,7 @@ const router = express.Router();
  * 
  * 
 */
-router.post('/', async function(req, res, next) {
-    console.log(req.body)
+router.post('/', ensureAdmin, async function(req, res, next) {
     const validator = jsonschema.validate(req.body, userRegisterSchema);
     if(!validator.valid) {
         const errs = validator.errors.map(e => e.stack);
@@ -46,7 +45,7 @@ router.post('/', async function(req, res, next) {
  * 
  * Authorization required: Admin
  */
-router.get('/', async function (req, res, next) {
+router.get('/', ensureAdmin, async function (req, res, next) {
     try {
         const users = await User.findAll();
         return res.json({ users });
@@ -63,7 +62,7 @@ router.get('/', async function (req, res, next) {
  * Authorization: admin or same user-as-:username
  */
 
-router.get('/:username', async function (req, res, next) {
+router.get('/:username', ensureCorrectUserOrAdmin, async function (req, res, next) {
     try {
         const user = await User.get(req.params.username);
         return res.json({user});
@@ -81,7 +80,7 @@ router.get('/:username', async function (req, res, next) {
  * Authorization required: Admin or same-user-as-:username
  */
 
-router.patch("/:username", async function (req, res, next) {
+router.patch("/:username", ensureCorrectUserOrAdmin, async function (req, res, next) {
     const validator = jsonschema.validate(req.body, userUpdateSchema);
     if(!validator.valid) {
         const errs = validator.errors.map(e => e.stack);
@@ -100,7 +99,7 @@ router.patch("/:username", async function (req, res, next) {
  * 
  */
 
-router.delete('/:username', async function (req, res, next) {
+router.delete('/:username', ensureCorrectUserOrAdmin, async function (req, res, next) {
     try {
         await User.delete(req.params.username);
         return res.json({ deleted: req.params.username});

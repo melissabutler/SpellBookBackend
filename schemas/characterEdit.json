@@ -33,6 +33,37 @@
             "examples": [
                 1
             ]
+        },
+        "strength": {
+            "type": "integer",
+            "default": 10,
+            "title": "the Strength Schema"
+        },
+        
+        "dexterity": {
+            "type": "integer",
+            "default": 10,
+            "title": "the dexterity Schema"
+        },
+        "constitution": {
+            "type": "integer",
+            "default": 10,
+            "title": "the constitution Schema"
+        },
+        "intelligence": {
+            "type": "integer",
+            "default": 10,
+            "title": "the intelligence Schema"
+        },
+        "wisdom": {
+            "type": "integer",
+            "default": 10,
+            "title": "the wisdom Schema"
+        },
+        "charisma": {
+            "type": "integer",
+            "default": 10,
+            "title": "the charisma Schema"
         }
     },
     "examples": [{

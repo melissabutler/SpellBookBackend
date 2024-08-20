@@ -13,13 +13,15 @@ const spellRoutes = require('./routes/spells')
 const spellCardRoutes = require('./routes/spellCards')
 const userRoutes = require('./routes/user')
 const characterRoutes = require('./routes/character')
-const authRoutes = require("./routes/auth")
+const authRoutes = require("./routes/auth");
+const { authenticateJWT } = require("./middleware/auth");
 
 const app = express();
 
 app.use(cors());
 app.use(express.json());
 app.use(morgan("tiny"));
+app.use(authenticateJWT)
 
 app.use("/spells", spellRoutes);
 app.use("/users", userRoutes)

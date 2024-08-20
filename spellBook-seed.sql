@@ -10,9 +10,9 @@ VALUES  ('testuser',
         'testuser2@email.com', 
         FALSE);
 
-INSERT INTO spell_cards (idx, name, description, range, level)
-VALUES ('acid-arrow', 'Acid Arrow', 'An acid arrow', '90 feet', 2),
-        ('acid-spray', 'Acid Spray', 'a spary of acid', '30 ft cone', 3);
+-- INSERT INTO spell_cards (idx, name, description, range, level)
+-- VALUES ('acid-arrow', 'Acid Arrow', 'An acid arrow', '90 feet', 2),
+--         ('acid-spray', 'Acid Spray', 'a spary of acid', '30 ft cone', 3);
 
 INSERT INTO characters (char_name, char_class, lvl, username, strength)
 VALUES ('char1', 
@@ -25,7 +25,7 @@ VALUES ('char1',
 -- VALUES ('1', 'testuser'),
 --         ('2', 'testuser');
 
-INSERT INTO spell_lists (char_id, spell_idx) 
-VALUES (1, 'acid-arrow'),
-        (1, 'acid-spray'),
-        (2, 'acid-arrow');
+-- INSERT INTO spell_lists (char_id, spell_idx) 
+-- VALUES (1, 'acid-arrow'),
+--         (1, 'acid-spray'),
+--         (2, 'acid-arrow');

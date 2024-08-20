@@ -23,9 +23,9 @@ CREATE TABLE users (
 
 CREATE TABLE spell_cards (
     idx TEXT PRIMARY KEY,
-    name TEXT NOT NULL,
-    description TEXT NOT NULL,
-    level INTEGER NOT NULL,
+    name TEXT,
+    description TEXT,
+    level INTEGER,
     range text,
     damage INTEGER,
     area_of_effect TEXT,
@@ -60,7 +60,6 @@ CREATE TABLE spell_lists (
     char_id INTEGER 
         REFERENCES characters ON DELETE CASCADE,
     spell_idx TEXT
-        REFERENCES spell_cards ON DELETE CASCADE
 );
 
 
