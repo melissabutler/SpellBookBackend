@@ -7,6 +7,13 @@ const Spell = require('../models/spellCard')
 
 const router = express.Router()
 
+/** GET
+ * 
+ * Returns a list of all spells.
+ * 
+ * Authorization required: none;
+ */
+
 router.get("/", async function (req, res, next) {
     try {
         //adjust based on req

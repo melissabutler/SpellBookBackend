@@ -28,7 +28,10 @@ class Character {
     }
 
     /** GET
-     * Return information about a single character
+     * Return information about a single character.
+     * 
+     * Input { char_id }
+     * Return { id, char_name, char_class, lvl, username, strength, dexterity, constitution, intelligence, wisdom, charisma }
      */
 
     static async get(char_id) {
@@ -66,7 +69,7 @@ class Character {
 
     /** Create a character from data, update db, return new character data.
      * 
-     * Data should be { charName, class, user_id }
+     * Data should be { char_name, char_class, lvl, username, strength, dexterity, constitution, intelligence, widsom, charisma }
      */
 static async createCharacter({ username, char_name, char_class, lvl, strength = 10, dexterity = 10, constitution = 10, intelligence = 10, wisdom = 10, charisma = 10 }) {
     const userResult = await db.query(
@@ -110,9 +113,9 @@ static async createCharacter({ username, char_name, char_class, lvl, strength = 
     return character;
 }
 
-/** Update character data iwth data, can be a partial update
+/** Update character data with data, can be a partial update
  * 
- * Data can include { charName, class }
+ * Data can include { charName, class, lvl, strength, dexterity, constitution, intelligence, wisdom, charisma }
  * 
  * returns { charName, class }
  * 
@@ -151,7 +154,12 @@ static async update(char_id, data) {
 
 /**  */
 
-/** Delete character */
+/** Delete character 
+ * 
+ * Takes { char_id }
+ * Returns { char_name }
+*/
+
 
 static async delete(char_id) {
     const result = await db.query(
