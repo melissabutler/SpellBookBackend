@@ -20,7 +20,6 @@ class Character {
                     char_name,
                     username
             FROM characters
-            JOIN user_characters ON characters.id = user_characters.char_id
             ORDER BY id`
         );
 
@@ -178,6 +177,15 @@ static async delete(char_id) {
  * { char_id, spell_idx }
  */
 static async assignSpells(char_id, spell_idx){
+
+    const preCheck = await db.query(
+        `SELECT id
+        FROM characters
+        WHERE id = $1`, [char_id]
+    )
+    const character = preCheck.rows[0];
+
+    if(!character) throw new NotFoundError(` Character not found. `)
 
     const spellListResult = await db.query( 
         `SELECT char_id

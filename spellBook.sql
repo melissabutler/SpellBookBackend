@@ -7,7 +7,6 @@ DROP TABLE IF EXISTS spell_lists;
 DROP TABLE IF EXISTS user_characters;
 
 DROP TABLE IF EXISTS characters;
-DROP TABLE IF EXISTS spell_cards;
 
 
 
@@ -21,17 +20,6 @@ CREATE TABLE users (
     is_admin BOOLEAN NOT NULL DEFAULT FALSE
 );
 
-CREATE TABLE spell_cards (
-    idx TEXT PRIMARY KEY,
-    name TEXT,
-    description TEXT,
-    level INTEGER,
-    range text,
-    damage INTEGER,
-    area_of_effect TEXT,
-    school TEXT,
-    classes TEXT
-);
 
 CREATE TABLE characters (
     username VARCHAR(25) NOT NULL,

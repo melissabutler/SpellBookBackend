@@ -81,13 +81,13 @@ static async register({ username, password, email, isAdmin }) {
 /** Find all users.
  * Returns [{ username, email, is_admin }, ...]
  * 
+                password,
  */
 
 static async findAll() {
-    const result = await db.query(n
+    const result = await db.query(
         `SELECT username,
                 email,
-                password,
                 is_admin AS "isAdmin"
         FROM users
         ORDER BY username`,
