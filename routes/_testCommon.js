@@ -1,6 +1,6 @@
 "use strict";
 
-const db = require("../db/js");
+const db = require("../db.js");
 const User = require("../models/user");
 const Character = require("../models/character");
 const { createToken } = require("../helpers/tokens");
@@ -11,22 +11,24 @@ async function commonBeforeAll() {
     await db.query("DELETE FROM users");
     await db.query("DELETE FROM characters");
 
-    
 
     await User.register({
         username: "u1",
         email: "user1@user.com",
-        password: "password1"
+        password: "password1",
+        isAdmin: false
       });
       await User.register({
         username: "u2",
         email: "user2@user.com",
-        password: "password2"
+        password: "password2",
+        isAdmin: false
       });
       await User.register({
         username: "u3",
         email: "user3@user.com",
-        password: "password3"
+        password: "password3",
+        isAdmin: false
       });
       
       testCharIds[0] = (await Character.createCharacter ({
@@ -36,7 +38,7 @@ async function commonBeforeAll() {
         lvl: 1
       })).id;
 
-      testCharIds[1](await Character.createCharacter ({
+      testCharIds[1] = (await Character.createCharacter ({
         username: 'u2',
         char_name: 'char2',
         char_class: 'druid', 

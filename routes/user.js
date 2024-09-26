@@ -28,12 +28,13 @@ const router = express.Router();
  * 
 */
 router.post('/', ensureAdmin, async function(req, res, next) {
+    try {
     const validator = jsonschema.validate(req.body, userRegisterSchema);
     if(!validator.valid) {
         const errs = validator.errors.map(e => e.stack);
         throw new BadRequestError(errs);
     }
-    try {
+    
         const user = await User.register(req.body);
         const token = createToken(user);
         return res.status(201).json({ user, token });
@@ -83,12 +84,13 @@ router.get('/:username', ensureCorrectUserOrAdmin, async function (req, res, nex
  */
 
 router.patch("/:username", ensureCorrectUserOrAdmin, async function (req, res, next) {
-    const validator = jsonschema.validate(req.body, userUpdateSchema);
-    if(!validator.valid) {
-        const errs = validator.errors.map(e => e.stack);
-        throw new BadRequestError(errs);
-    }
     try {
+        const validator = jsonschema.validate(req.body, userUpdateSchema);
+        if(!validator.valid) {
+            const errs = validator.errors.map(e => e.stack);
+            throw new BadRequestError(errs);
+        }
+    
         const user = await User.update(req.params.username, req.body);
         return res.json({ user })
     } catch(err) {
@@ -156,13 +158,14 @@ router.post('/:username/characters', ensureCorrectUserOrAdmin, async function (r
  */
 
 router.patch("/:username/characters/:char_id", ensureCorrectUserOrAdmin, async function (req, res, next) {
-    const validator = jsonschema.validate(req.body, characterEditSchema);
-    if(!validator.valid) {
-        const errs = validator.errors.map(e => e.stack);
-        throw new BadRequestError(errs)
-    }
-
     try {
+        const validator = jsonschema.validate(req.body, characterEditSchema);
+        if(!validator.valid) {
+            const errs = validator.errors.map(e => e.stack);
+            throw new BadRequestError(errs)
+        }
+
+    
         const character = await Character.update(req.params.char_id, req.body);
         return res.json({ character })
     } catch(err) {
