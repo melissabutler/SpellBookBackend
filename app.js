@@ -16,7 +16,9 @@ const { authenticateJWT } = require("./middleware/auth");
 
 const app = express();
 
-app.use(cors());
+app.use(cors({
+    AccessControlOrigin: ["https://spellbookfrontend.onrender.com", "https://spellbookbackend.onrender.com"]
+}));
 app.use(express.json());
 app.use(morgan("tiny"));
 app.use(authenticateJWT)
