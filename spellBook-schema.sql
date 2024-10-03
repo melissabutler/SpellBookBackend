@@ -6,17 +6,6 @@ CREATE TABLE users (
     is_admin BOOLEAN NOT NULL DEFAULT FALSE
 );
 
--- CREATE TABLE spell_cards (
---     idx TEXT PRIMARY KEY,
---     name TEXT NOT NULL,
---     description TEXT NOT NULL,
---     level INTEGER NOT NULL,
---     range text,
---     damage INTEGER,
---     area_of_effect TEXT,
---     school TEXT,
---     classes TEXT
--- );
 
 CREATE TABLE characters (
     id SERIAL PRIMARY KEY,
