@@ -18,7 +18,6 @@ describe("config can come from env", function () {
     delete process.env.BCRYPT_WORK_FACTOR;
     delete process.env.DATABASE_URL;
 
-    expect(config.getDatabaseUri()).toEqual("postgresql://melissabutler:catbutts@127.0.0.1:5432/spellBook");
     process.env.NODE_ENV = "test";
 
     expect(config.getDatabaseUri()).toEqual("postgresql:///spellBook_test");

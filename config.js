@@ -2,7 +2,8 @@
 
 require("dotenv").config();
 
-const SECRET_KEY = process.env.SECRET_KEY || "catbutts";
+const SECRET_KEY = require("./secret/SECRET_KEY.jsx")
+
 
 const PORT = +process.env.PORT || 3001;
 
@@ -11,7 +12,7 @@ const PORT = +process.env.PORT || 3001;
 function getDatabaseUri() {
     return (process.env.NODE_ENV === "test")
     ? "postgresql:///spellBook_test"
-    : process.env.DATABASE_URL || "postgresql://melissabutler:catbutts@127.0.0.1:5432/spellBook"
+    : process.env.DATABASE_URL || `postgresql://melissabutler:${SECRET_KEY}@127.0.0.1:5432/spellBook`
 }
 
 const BCRYPT_WORK_FACTOR = process.env.NODE_ENV === "test" ? 1 : 12;

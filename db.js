@@ -30,7 +30,7 @@ let DB_URI;
 if(process.env.NODE_ENV === "test") {
     DB_URI = "spellBook_test";
 } else {
-    DB_URI = "spellBook_test"
+    DB_URI = "spellBook"
 }
 
 const db = new Client({

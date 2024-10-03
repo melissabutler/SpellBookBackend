@@ -9,7 +9,6 @@ const morgan = require("morgan")
 const { NotFoundError } = require("./expressError")
 
 /** Routes */
-const spellRoutes = require('./routes/spells')
 const userRoutes = require('./routes/user')
 const characterRoutes = require('./routes/character')
 const authRoutes = require("./routes/auth");
@@ -22,7 +21,6 @@ app.use(express.json());
 app.use(morgan("tiny"));
 app.use(authenticateJWT)
 
-app.use("/spells", spellRoutes);
 app.use("/users", userRoutes)
 app.use("/characters", characterRoutes)
 app.use('/auth', authRoutes)
