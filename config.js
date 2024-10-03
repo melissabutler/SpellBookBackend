@@ -4,7 +4,6 @@ require("dotenv").config();
 
 const SECRET_KEY = require("./secret/SECRET_KEY.jsx")
 
-
 const PORT = +process.env.PORT || 3001;
 
 //use dev database, testing database, or via env variable, production database
