@@ -60,7 +60,6 @@ class Character {
                 WHERE characters.id = $1`, [char_id]
         );
         character.spells = spellListRes.rows.map(a => a.spell_idx);
-        console.log(character)
         return character;
 
 
@@ -194,7 +193,6 @@ static async assignSpells(char_id, spell_idx){
     );
     if(spellListResult.rows.length != 0) throw new BadRequestError(`Spell ${spell_idx} already on character's list.`)
 
-        console.log(spellListResult.rows)
     const result = await db.query(
         `INSERT INTO spell_lists (char_id,
                                     spell_idx)
